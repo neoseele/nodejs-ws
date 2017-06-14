@@ -1,0 +1,49 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: nodejs-prod
+  labels:
+      deployment: nodejs
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25% # default
+      maxUnavailable: 25% # default
+  template:
+    metadata:
+      labels:
+        app: nodejs
+        env: prod
+    spec:
+      containers:
+        - name: nodejs
+          image: gcr.io/nmiu-play/nodejs-ws:0.0.3
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 200m
+          ports:
+            - containerPort: 8080
+              name: port-nodejs
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 3
+            timeoutSeconds: 5

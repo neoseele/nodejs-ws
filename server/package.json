@@ -1,0 +1,13 @@
+{
+  "name": "nodejs_ws",
+  "version": "1.0.0",
+  "description": "Node.js based websocket test",
+  "author": "John Doe",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
