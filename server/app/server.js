@@ -6,7 +6,7 @@ const WebSocket = require('ws');
 const app = express();
 
 app.use(function (req, res) {
-  res.send({ msg: "hello" });
+  res.send({ msg: "hello world!" });
 });
 
 const server = http.createServer(app);
