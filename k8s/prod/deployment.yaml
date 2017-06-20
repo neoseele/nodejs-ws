@@ -17,6 +17,8 @@ spec:
         app: nodejs
         env: prod
     spec:
+      nodeSelector:
+        env: prod
       containers:
         - name: nodejs
           image: gcr.io/nmiu-play/nodejs-ws:0.0.3
