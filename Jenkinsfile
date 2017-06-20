@@ -17,7 +17,7 @@ node {
     // Roll out to canary environment
     case "canary":
         // Change deployed image in canary to the one we just built
-        sh("sed -i.bak 's#gcr.io/nmiu-play/nodejs-ws:0.0.3#${imageTag}#' ./k8s/canary/*.yaml")
+        sh("sed -i.bak 's#gcr.io/${project}/${appName}:0.0.3#${imageTag}#' ./k8s/canary/*.yaml")
         sh("kubectl --namespace=prod apply -f k8s/service.yaml")
         sh("kubectl --namespace=prod apply -f k8s/canary/")
         sh("echo http://`kubectl --namespace=prod get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
@@ -26,7 +26,7 @@ node {
     // Roll out to production
     case "master":
         // Change deployed image in canary to the one we just built
-        sh("sed -i.bak 's#gcr.io/nmiu-play/nodejs-ws:0.0.3#${imageTag}#' ./k8s/prod/*.yaml")
+        sh("sed -i.bak 's#gcr.io/${project}/${appName}:0.0.3#${imageTag}#' ./k8s/prod/*.yaml")
         sh("kubectl --namespace=prod apply -f k8s/service.yaml")
         sh("kubectl --namespace=prod apply -f k8s/prod/")
         sh("echo http://`kubectl --namespace=prod get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
@@ -37,7 +37,7 @@ node {
         // Create namespace if it doesn't exist
         sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
         // Don't use public load balancing for development branches
-        sh("sed -i.bak 's#gcr.io/nmiu-play/nodejs-ws:0.0.3#${imageTag}#' ./k8s/dev/*.yaml")
+        sh("sed -i.bak 's#gcr.io/${project}/${appName}:0.0.3#${imageTag}#' ./k8s/dev/*.yaml")
         sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/service.yaml")
         sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/")
         echo 'To access your environment run `kubectl proxy`'
