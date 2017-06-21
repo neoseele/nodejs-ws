@@ -6,5 +6,5 @@ metadata:
   name: nodejs-ingress
 spec:
   backend:
-    serviceName: nodejs
+    serviceName: nodejs-ws
     servicePort: 8080
