@@ -2,11 +2,16 @@ const express = require('express');
 const http = require('http');
 const url = require('url');
 const WebSocket = require('ws');
+const os = require("os");
 
 const app = express();
+const hostname = os.hostname();
 
 app.use(function (req, res) {
-  res.send({ msg: "hello world!!" });
+  res.send({
+    pod: hostname,
+    msg: "hello world!"
+  });
 });
 
 const server = http.createServer(app);
