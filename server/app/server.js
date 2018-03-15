@@ -10,7 +10,7 @@ const hostname = os.hostname();
 app.use(function (req, res) {
   res.send({
     pod: hostname,
-    msg: "hello world!"
+    msg: "hello dev!"
   });
 });
 
